@@ -2,7 +2,8 @@ WITH raw_reviews AS (
     SELECT
     *
     FROM
-        AIRBNB.RAW.RAW_REVIEWS
+        -- AIRBNB.RAW.RAW_REVIEWS -- What if the source changes ...
+    {{ source('airbnb', 'reviews')}} -- You can use the source that was defined in sources.yml
 )
 SELECT
     listing_id,

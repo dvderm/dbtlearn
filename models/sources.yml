@@ -1,0 +1,38 @@
+# Extra abstraction on top of your raw tables which can be referenced using this .yml
+version: 2
+
+sources:    # Here you give aliases to actual tables in Snowflake, which is what sources is about. 
+  - name: airbnb  # Source namespace (database) called airbnb. Callable with e.g. {{source('airbnb', 'listings')}}
+    schema: raw # Schema raw
+    tables:     # Tables in the database and schema mentioned above
+      - name: listings            # Name of the object
+        identifier: raw_listings
+
+      - name: hosts
+        identifier: raw_hosts
+
+      - name: reviews
+        identifier: raw_reviews
+
+        # Extra abstraction on top of your raw tables which can be referenced using this .yml
+version: 2
+
+sources:    # Here you give aliases to actual tables in Snowflake, which is what sources is about. 
+  - name: airbnb  # Source namespace (database) called airbnb. Callable with e.g. {{source('airbnb', 'listings')}}
+    schema: raw # Schema raw
+    tables:     # Tables in the database and schema mentioned above
+      - name: listings            # Name of the object
+        identifier: raw_listings
+
+      - name: hosts
+        identifier: raw_hosts
+
+      - name: reviews
+        identifier: raw_reviews
+        loaded_at_field: date   # Check date freshness: can be tested with command "dbt source freshness" in terminal 
+        freshness:
+            warn_after: {count: 1, period: hour} # Warning when data is an hour old
+            error_after: {count: 24, period: hour} # Error when data is 24 hours old
+
+
+
