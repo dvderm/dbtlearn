@@ -13,7 +13,7 @@ source: data die al in het data warehouse zit. An abstraction on top of your inp
 commando "dbt compile": checken of al je referenties e.d. correct zijn. 
 
 snapshots: kunnen gebruikt worden om historie bij te houden scd2 style. Twee typen snapshot strategies beschikbaar:
-    - timestamp: a unique que and an updated_at field is defined on the source model. These columns are used for determining changes. 
+    - timestamp: a unique key and an updated_at field is defined on the source model. These columns are used for determining changes. 
     - check: any change in a set of columns (or all columns) will be picked up as an update. 
 commando "dbt snapshot": maakt snapshots
 
@@ -21,6 +21,6 @@ tests: los van custom tests (of tests van dbt packages), zijn er twee typen test
     - singular: sql queries die opgeslagen zijn in folder tests die een lege resultset moeten genereren.
     - generic: 4 typen: unique, not_null, accepted_values, relationships (relationships controleert of een kolom in tabel A een valid reference is naar een andere kolom in e.g. tabel B). Deze kunnen opgeslagen worden in folder models. 
 commando "dbt test": all tests uitvoeren
-commando "dbt test --select dim_listings_cleansed": alleen tests uitvoeren die gerelateerd zijn aan dim_listings_cleansed.
+commando "dbt test --select dim_listings_cleansed": alleen tests uitvoeren die gerelateerd zijn aan model dim_listings_cleansed.
 commando "dbt test --select dim_listings_minimum_nights": alleen test dim_listings_minimum_nights uitvoeren. 
 De sql statement die dbt naar Snowflake stuurt om de tests te doen is te vinden in target\compiled\dbtlearn\models\schema.yml
