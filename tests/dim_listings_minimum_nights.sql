@@ -1,4 +1,4 @@
--- Check of de constraint van kolom MINIMUM_NIGHTS in listings tabel > 0 klopt
+-- Check of de constraint van kolom MINIMUM_NIGHTS in listings tabel > 0 klopt. MINIMUM_NIGHTS moet namelijk > 0 zijn. 
 SELECT
  *
 FROM

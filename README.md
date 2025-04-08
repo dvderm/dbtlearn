@@ -24,3 +24,10 @@ commando "dbt test": all tests uitvoeren
 commando "dbt test --select dim_listings_cleansed": alleen tests uitvoeren die gerelateerd zijn aan model dim_listings_cleansed.
 commando "dbt test --select dim_listings_minimum_nights": alleen test dim_listings_minimum_nights uitvoeren. 
 De sql statement die dbt naar Snowflake stuurt om de tests te doen is te vinden in target\compiled\dbtlearn\models\schema.yml
+
+macros: soort van function. macros zijn jinja templates. Macros automate repetitive tasks, inject conditional logic, or simplify complex SQL operations (dus anders dan tests die met name bedoeld zijn voor validatie). They act like functions — defined once in .sql files (under macros/) and reused across models or other macros. 
+macros kunnen ook gevonden worden in 3rd party packages op https://hub.getdbt.com/
+
+packages.yml kun je gebruiken om 3rd party packages toe te voegen aan je project. Deze packages stellen je in staat om e.g. macros te gebruiken die anderen ontwikkeld hebben e.g. de macro generate_surrogate_key(source) uit package dbt-utils. Nadat je packages.yml gemaakt hebt in je root moet je in de terminal nog commando "dept deps" uitvoeren om de dependencies (de packages dus in dit geval) te installeren. 
+commando "dbt deps" installeert de packages uit packges.yml in folder dbt_packages\your_package_name. Feitelijk wordt de repo simpelweg gecloned vanuit github naar de folder dbt_packages. 
+
