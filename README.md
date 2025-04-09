@@ -1,5 +1,6 @@
 # Notities dbt Data Build Tool
 
+## Algemeen
 commando "dbt test --help": docs over dbt commando's. 
 
 In folder models kun je meerdere .yml files opslaan met configuraties zoals tests (in schema.yml) en bronnen (in sources.yml). 
@@ -12,11 +13,13 @@ dbt seed: de files in de seed folder worden naar Snowflake ge-upload.
 source: data die al in het data warehouse zit. An abstraction on top of your input data. Sources can be defined in any .yaml file folder models. 
 commando "dbt compile": checken of al je referenties e.d. correct zijn. 
 
+## Snapshots
 snapshots: kunnen gebruikt worden om historie bij te houden scd2 style. Twee typen snapshot strategies beschikbaar:
     - timestamp: a unique key and an updated_at field is defined on the source model. These columns are used for determining changes. 
     - check: any change in a set of columns (or all columns) will be picked up as an update. 
 commando "dbt snapshot": maakt snapshots
 
+## Tests
 tests: los van custom tests (of tests van dbt packages), zijn er twee typen tests:
     - singular: sql queries die opgeslagen zijn in folder tests die een lege resultset moeten genereren.
     - generic: 4 typen: unique, not_null, accepted_values, relationships (relationships controleert of een kolom in tabel A een valid reference is naar een andere kolom in e.g. tabel B). Deze kunnen opgeslagen worden in folder models. 
@@ -25,9 +28,19 @@ commando "dbt test --select dim_listings_cleansed": alleen tests uitvoeren die g
 commando "dbt test --select dim_listings_minimum_nights": alleen test dim_listings_minimum_nights uitvoeren. 
 De sql statement die dbt naar Snowflake stuurt om de tests te doen is te vinden in target\compiled\dbtlearn\models\schema.yml
 
+## Macros
 macros: soort van function. macros zijn jinja templates. Macros automate repetitive tasks, inject conditional logic, or simplify complex SQL operations (dus anders dan tests die met name bedoeld zijn voor validatie). They act like functions — defined once in .sql files (under macros/) and reused across models or other macros. 
 macros kunnen ook gevonden worden in 3rd party packages op https://hub.getdbt.com/
 
+## Packages
 packages.yml kun je gebruiken om 3rd party packages toe te voegen aan je project. Deze packages stellen je in staat om e.g. macros te gebruiken die anderen ontwikkeld hebben e.g. de macro generate_surrogate_key(source) uit package dbt-utils. Nadat je packages.yml gemaakt hebt in je root moet je in de terminal nog commando "dept deps" uitvoeren om de dependencies (de packages dus in dit geval) te installeren. 
 commando "dbt deps" installeert de packages uit packges.yml in folder dbt_packages\your_package_name. Feitelijk wordt de repo simpelweg gecloned vanuit github naar de folder dbt_packages. 
 
+## Documentation 
+documentation can be added to project.yml as a key-value pair. The key is "description" and the value is the documentation/description that you would like to add. You can add descriptions to models, columns. 
+commando "dbt docs generate": genereert een html website. 
+commando "dbt docs serve": creëert een lightweight python documentatieserver om een documentatie pagina te maken. Een uitgebreidere documentatieserver zou op een nginx server gemaakt kunnen worden met de files in folder target. 
+Door een .md bestand aan te maken in de models folder en aan deze te refereren in schema.yml mbv *description: '{{ doc("dim_listing_cleansed__minimum_nights") }}'* kun je uitgebreidere documentatie toevoegen aan je tabellen en kolommen. 
+Je kunt plaatjes e.d. toevoegen aan documentatie o.a. dmv het aanmaken van een assets folder in de root en vervolgens in dbt_project.yml hiernaar te verwijzen mbv *asset-paths: ["assets"]*. Vervolgens wordt er in folder target een folder met naam "assets" aangemaakt met hierin het plaatje. Dit plaatje wordt dan gebruikt in de server. 
+Er is op de docs server ook een DAG (Direct Acyclic Graph), oftewel een data lineage diagram aanwezig waarin je afhankelijkheden kunt zien. Je kunt in dit overzicht verschillende perspectieven creëeren. Je kunt bijvoorbeeld alleen de data gerelateerde objecten tonen mbv filters links onderin (groene kader op ss hieronder). Mbv +resource+ kun je alle afhankelijkheden die vooraf gaan aan de resource en alle resources die afhankelijk zijn van de resource tonen (rode kader op ss hieronder). 
+![DAG / Data lineage](assets/dag.png)
