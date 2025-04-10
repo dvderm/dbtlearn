@@ -34,6 +34,8 @@ models:
   dbtlearn:
     # Config indicated by + and applies to all files under models/example/
     +materialized: view
+    +post-hook: # This ensures that this SQL statement is executed on every model in dbtlearn folder. Before defining this post-hook the REPORTER ROLE could not see any tables or views in DEV schema because they were not yet granted (see snowflake_sql_sheet_notes.txt for the privileges that were granted). 
+      - "GRANT SELECT ON {{ this }} TO ROLE REPORTER"
     dim:
       +materialized: table
     src:

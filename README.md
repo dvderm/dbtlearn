@@ -1,7 +1,8 @@
 # Notities dbt Data Build Tool
 
 ## Algemeen
-commando "dbt test --help": docs over dbt commando's. 
+commando "dbt --help": docs over dbt commando's. 
+commando "dbt test --help": docs over "dbt 
 
 In folder models kun je meerdere .yml files opslaan met configuraties zoals tests (in schema.yml) en bronnen (in sources.yml). 
 
@@ -36,7 +37,7 @@ macros kunnen ook gevonden worden in 3rd party packages op https://hub.getdbt.co
 packages.yml kun je gebruiken om 3rd party packages toe te voegen aan je project. Deze packages stellen je in staat om e.g. macros te gebruiken die anderen ontwikkeld hebben e.g. de macro generate_surrogate_key(source) uit package dbt-utils. Nadat je packages.yml gemaakt hebt in je root moet je in de terminal nog commando "dept deps" uitvoeren om de dependencies (de packages dus in dit geval) te installeren. 
 commando "dbt deps" installeert de packages uit packges.yml in folder dbt_packages\your_package_name. Feitelijk wordt de repo simpelweg gecloned vanuit github naar de folder dbt_packages. 
 
-## Documentation 
+## Documentation generation
 documentation can be added to project.yml as a key-value pair. The key is "description" and the value is the documentation/description that you would like to add. You can add descriptions to models, columns. 
 commando "dbt docs generate": genereert een html website. 
 commando "dbt docs serve": creëert een lightweight python documentatieserver om een documentatie pagina te maken. Een uitgebreidere documentatieserver zou op een nginx server gemaakt kunnen worden met de files in folder target. 
@@ -44,3 +45,20 @@ Door een .md bestand aan te maken in de models folder en aan deze te refereren i
 Je kunt plaatjes e.d. toevoegen aan documentatie o.a. dmv het aanmaken van een assets folder in de root en vervolgens in dbt_project.yml hiernaar te verwijzen mbv *asset-paths: ["assets"]*. Vervolgens wordt er in folder target een folder met naam "assets" aangemaakt met hierin het plaatje. Dit plaatje wordt dan gebruikt in de server. 
 Er is op de docs server ook een DAG (Direct Acyclic Graph), oftewel een data lineage diagram aanwezig waarin je afhankelijkheden kunt zien. Je kunt in dit overzicht verschillende perspectieven creëeren. Je kunt bijvoorbeeld alleen de data gerelateerde objecten tonen mbv filters links onderin (groene kader op ss hieronder). Mbv +resource+ kun je alle afhankelijkheden die vooraf gaan aan de resource en alle resources die afhankelijk zijn van de resource tonen (rode kader op ss hieronder). 
 ![DAG / Data lineage](assets/dag.png)
+
+## Analyses (ad hoc queries), Hooks and Exposures
+Analyses (ad hoc queries), can be saved to the analyses folder. 
+commando "dbt compile": checken of je referenties correct zijn kan ook voor queries in analyses folder. De compiled queries kun je terugvinden in folder target/compiled/dbtlearn/analyses. Je kunt deze queries mbv de extensie dbt Power User uitvoeren in VS Code zelf. 
+
+## Hooks
+hooks zijn SQLs die op vooraf gedefinieerde tijdstippen uitgevoerd worden. Hooks kunnen op project-, subfolder- of modelniveau ingesteld worden. Er zijn algemeen gesproken vier typen hooks:
+- on_run_start: executed at the start of dbt (run, seed, snapshot)
+- on_run_end: executed at the end of dbt (run, seed, snapshot)
+- pre-hook: executed before a model/seed/snapshot is built
+- post-hook: executed after a model/seed/snapshot is built
+hooks need to be defined in dbt_project.yml (see dbt_project.yml for examples). 
+
+## Exposures
+exposures zijn configurations die naar externe resources verwijzen zoals dashboards e.d. In deze repo te vinden in dashboards.yml, maar je kunt het ook in een andere .yml verwerken. 
+preset dashboard link: https://bf4d4ddb.us2a.app.preset.io/superset/dashboard/8/?edit=true&native_filters_key=0qkCTadz9TtUTWUAmJAFAahGaAlE4omMmWvGtcbjT6V_5lYg4Kt-L3u8qqEUUtx0
+
