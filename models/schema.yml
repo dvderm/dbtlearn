@@ -24,7 +24,25 @@ models:
         description: '{{ doc("dim_listing_cleansed__minimum_nights") }}'  # Te vinden in docs.md
         tests:
           - positive_value  # Zie macro positive_value
-
+  
+  - name: dim_listings_w_hosts
+    tests:
+      - dbt_expectations.expect_table_row_count_to_equal_other_table: # Check of aantal rijen van twee tabellen hetzelfde is
+          compare_model: ref("dim_listings_cleansed") # Een manier om aan een model te refereren
+          # compare_model: source("airbnb", "listings") # Nog een manier om aan een model te refereren (via sources.yml)
+    columns:
+      - name: price
+        tests:
+          - dbt_expectations.expect_column_quantile_values_to_be_between: # Check of er geen outliers zijn in airbnb listing price 
+              quantile: .99 # 99% van de listing prices moeten tussen 50 en 500 zitten, anders is het een ongeloofwaardig lage of hoge prijs
+              min_value: 50
+              max_value: 500
+          - dbt_expectations.expect_column_max_to_be_between: # Een listing die meer dan 5000 is mss incorrect. 
+              max_value: 5000
+              config: # Je kunt voor elke test een config toevoegen met onderstaande
+                severity: warn # Nu zal de test niet falen, maar slechts een warning geven wanneer er een price is > 5000. 
+          - dbt_expectations.expect_column_values_to_be_of_type: # Check of datatype integer is
+              column_type: number
   - name: dim_hosts_cleansed
     description: Table with hosts. 
     columns:

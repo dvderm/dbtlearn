@@ -62,3 +62,8 @@ hooks need to be defined in dbt_project.yml (see dbt_project.yml for examples).
 exposures zijn configurations die naar externe resources verwijzen zoals dashboards e.d. In deze repo te vinden in dashboards.yml, maar je kunt het ook in een andere .yml verwerken. 
 preset dashboard link: https://bf4d4ddb.us2a.app.preset.io/superset/dashboard/8/?edit=true&native_filters_key=0qkCTadz9TtUTWUAmJAFAahGaAlE4omMmWvGtcbjT6V_5lYg4Kt-L3u8qqEUUtx0
 
+## Testing and data quality with package dbt-expectations
+Original great expectations project: https://github.com/great-expectations/great_expectations
+dbt-expectations: https://github.com/metaplane/dbt-expectations
+Eerst package dbt-expectations toevoegen aan packages.yml. Vervolgens de functie/test die je wilt uitvoeren toevoegen aan schema.yml (tenzij het een test betreft die je op een source wilt doen, dan moet je de test toevoegen aan sources.yml). Documentatie van de functie/test is te vinden op de github pagina (e.g. welke parameters je wilt meegeven). 
+Bekijk bij de documentatie altijd goed op welk objecttype de functie/test van toepassing is: e.g. op een tabel of kolom. 

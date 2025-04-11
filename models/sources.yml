@@ -7,22 +7,15 @@ sources:    # Here you give aliases to actual tables in Snowflake, which is what
     tables:     # Tables in the database and schema mentioned above
       - name: listings            # Name of the object
         identifier: raw_listings
-
-      - name: hosts
-        identifier: raw_hosts
-
-      - name: reviews
-        identifier: raw_reviews
-
-        # Extra abstraction on top of your raw tables which can be referenced using this .yml
-version: 2
-
-sources:    # Here you give aliases to actual tables in Snowflake, which is what sources is about. 
-  - name: airbnb  # Source namespace (database) called airbnb. Callable with e.g. {{source('airbnb', 'listings')}}
-    schema: raw # Schema raw
-    tables:     # Tables in the database and schema mentioned above
-      - name: listings            # Name of the object
-        identifier: raw_listings
+        columns:
+          - name: room_type
+            tests:
+              - dbt_expectations.expect_column_distinct_count_to_equal:
+                  value: 4  # SELECT DISTINCT ROOM_TYPE FROM AIRBNB.DEV.DIM_LISTINGS_CLEANSED; leidt tot slechts 4 room_type's. 
+          - name: price
+            tests:
+              - dbt_expectations.expect_column_values_to_match_regex:
+                  regex: "^\\$[0-9][0-9\\.]+$"  # Waarde moet starten met dollarteken ^, Het dollarteken is een special character in regex, dus moet deze escaped worden. yml gebruikt backslashes echter ook als special character en regex gebruikt backslashes ook om iets te escapen dus om iets daadwerkelijk te escapen moet je twee backslashes achter elkaar gebruiken. De echte regex is dus: ^\$[0-9][0-9\.]+$
 
       - name: hosts
         identifier: raw_hosts
