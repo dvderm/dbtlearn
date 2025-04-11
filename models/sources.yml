@@ -15,7 +15,7 @@ sources:    # Here you give aliases to actual tables in Snowflake, which is what
           - name: price
             tests:
               - dbt_expectations.expect_column_values_to_match_regex:
-                  regex: "^\\$[0-9][0-9\\.]+$"  # Waarde moet starten met dollarteken ^, Het dollarteken is een special character in regex, dus moet deze escaped worden. yml gebruikt backslashes echter ook als special character en regex gebruikt backslashes ook om iets te escapen dus om iets daadwerkelijk te escapen moet je twee backslashes achter elkaar gebruiken. De echte regex is dus: ^\$[0-9][0-9\.]+$
+                  regex: "^\\\\$[0-9][0-9\\\\.]+$"  # Waarde moet starten met dollarteken ^, Het dollarteken is een special character in regex, dus moet deze escaped worden. yml gebruikt backslashes echter ook als special character en regex gebruikt backslashes ook om iets te escapen dus om iets daadwerkelijk te escapen moet je twee backslashes achter elkaar gebruiken. Vervolgens moet je nog twee backslashes toevoegen voor Snowflake. Na het testen van de compiled sql in folder target zag je namelijk dat in de compiled sql de backslashes wegvielen. De echte regex is dus: ^\$[0-9][0-9\.]+$
 
       - name: hosts
         identifier: raw_hosts
