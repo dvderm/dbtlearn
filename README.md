@@ -67,3 +67,10 @@ Original great expectations project: https://github.com/great-expectations/great
 dbt-expectations: https://github.com/metaplane/dbt-expectations
 Eerst package dbt-expectations toevoegen aan packages.yml. Vervolgens de functie/test die je wilt uitvoeren toevoegen aan schema.yml (tenzij het een test betreft die je op een source wilt doen, dan moet je de test toevoegen aan sources.yml). Documentatie van de functie/test is te vinden op de github pagina (e.g. welke parameters je wilt meegeven). 
 Bekijk bij de documentatie altijd goed op welk objecttype de functie/test van toepassing is: e.g. op een tabel of kolom. 
+commando " dbt --debug test --select source:airbnb.listings": debuggen van een test. 
+Betere manier om te debuggen van een test is te kijken welke sql dbt heeft gebruikt om de test uit te voeren. na e.g. "dbt test --select source:airbnb.listings" te kijken waar de compiled code/sql te vinden is. Dit wordt getoond aan het einde van een test: target\compiled\dbtlearn\models\sources.yml\dbt_expectations_source_expect_a60b59a84fbc4577a11df360c50013bb.sql
+
+## Logging
+In folder macros logging.sql toegevoegd. Vervolgens een blank slate maken dmv het deleten van dbt.log in folder logs. 
+commando "dbt run-operation learn_logging": uitvoeren van de logging macro learn_logging in logging.sql in folder macros. 
+In macro (logging.sql in dit geval), info=True toevoegen als tweede parameter van de log() functie zorgt ervoor dat de log message van level "debug" naar "info" gaat, net zoals in e.g. Python. Dit betekent dat het logging bericht ook in de terminal op het scherm komt. 
