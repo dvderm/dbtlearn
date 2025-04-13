@@ -74,3 +74,15 @@ Betere manier om te debuggen van een test is te kijken welke sql dbt heeft gebru
 In folder macros logging.sql toegevoegd. Vervolgens een blank slate maken dmv het deleten van dbt.log in folder logs. 
 commando "dbt run-operation learn_logging": uitvoeren van de logging macro learn_logging in logging.sql in folder macros. 
 In macro (logging.sql in dit geval), info=True toevoegen als tweede parameter van de log() functie zorgt ervoor dat de log message van level "debug" naar "info" gaat, net zoals in e.g. Python. Dit betekent dat het logging bericht ook in de terminal op het scherm komt. 
+
+## Variables
+Twee soorten variables:
+- Jinja variables: variables die van jinja komen. 
+- dbt variables/project variables: dbt-specific variables die via command line (CL) of door dbt_project.yml aan dbt doorgegeven kunnen worden. 
+commando "dbt run-operation learn_variables": learn_variables macro wordt uitgevoerd. 
+commando "dbt run --vars '{"key": "value"}': dbt variable doorgeven aan dbt via CL. 
+https://docs.getdbt.com/docs/build/project-variables
+Uitgebreide logica betreffende incremental load van fct_reviews.sql. Er zitten nu variabelen in. Deze variabelen krijgen een waarde met het volgende commando: 
+dbt run --select fct_reviews  --vars '{start_date: "2024-02-15 00:00:00", end_date: "2024-03-15 23:59:59"}'
+https://docs.getdbt.com/docs/build/incremental-strategy
+Variables doorgegeven aan dbt via CL overschrijven variables die als defaults meegegeven zijn in dbt_project.yml. 
