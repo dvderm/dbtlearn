@@ -1,7 +1,7 @@
 {% snapshot scd_raw_listings %}  {# Corrected snapshot tag syntax #}
 
 {# Two strategies available: timestamp and check. See readme for explanation on these strategies #}
-{# If any record is deleted from the original input table the snapshot will reflect that. If this is set to false, deletes will not be picked up  #}
+{# If any record is deleted from the original input table the snapshot will reflect that with column DBT_VALID_TO. If this is set to false, deletes will not be picked up  #}
 {{
     config(
         target_schema='DEV',
