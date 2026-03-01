@@ -1,19 +1,20 @@
 # Notities dbt Data Build Tool
 
 ## Algemeen
-"dbt build": run models, test tests, snapshot snapshots, seed seeds.
-"dbt --help": docs over dbt commando's. 
-"dbt test --help": docs over "dbt test"
-"dbt compile": generates executable sql from source model, test and analysis files. De compiled sql files zijn te vinden in de target folder. Je kunt hier o.a. mee checken of al je referenties e.d. correct zijn. 
-"dbt parse": dbt just reads and validates your project code without connecting to the DWH. Results written to target/perf_info.json
-"dbt run": executes compiled sql against current target database
-"dbt run --full-refresh" ofwel "dbt run -f": ververst een incrementeel model volledig ofwel reprocesses the entire incremental model. 
-"dbt run-operation macro_name {args}": macro uitvoeren met de arguments van de macro in een dictionary, e.g. '{my_variable: my_value }
-"dbt build --select state:modified+ --defer --state path/to/production/manifest.json": voorbeeld van "slim CI". alleen de veranderde modellen uitvoeren waarbij er gebruik gemaakt moet worden van de vorige manifest.json zodat er niet onnodig modellen opnieuw gebouwd moeten worden. "--state": Points to previous manifest (e.g., from production) to compare state and resolve refs. "--defer": Uses upstream models from the state manifest if they don't exist in the current environment. 
-"dbt run --select "@my_model": select my_model, its descendants, and the ancestors of its descendants
-"dbt run --select staging.*: runs all models in the staging directory. 
-"dbt ls -s config.materialized:view --output json": list all models materialized as views in json. 
-"dbt -x run" / "dbt --fail-fast run": dbt run will exit immediately if a single resource fails to build. 
+dbt build --full-refresh: rebuild all models (including incremental) and seeds. Similar to CREATE OR REPLACE.\
+"dbt build": run models, test tests, snapshot snapshots, seed seeds.\
+"dbt --help": docs over dbt commando's. \
+"dbt test --help": docs over "dbt test"\
+"dbt compile": generates executable sql from source model, test and analysis files. De compiled sql files zijn te vinden in de target folder. Je kunt hier o.a. mee checken of al je referenties e.d. correct zijn. \
+"dbt parse": dbt just reads and validates your project code without connecting to the DWH. Results written to target/perf_info.json\
+"dbt run": executes compiled sql against current target database\
+"dbt run --full-refresh" ofwel "dbt run -f": ververst een incrementeel model volledig ofwel reprocesses the entire incremental model. \
+"dbt run-operation macro_name {args}": macro uitvoeren met de arguments van de macro in een dictionary, e.g. '{my_variable: my_value }\
+"dbt build --select state:modified+ --defer --state path/to/production/manifest.json": voorbeeld van "slim CI". alleen de veranderde modellen uitvoeren waarbij er gebruik gemaakt moet worden van de vorige manifest.json zodat er niet onnodig modellen opnieuw gebouwd moeten worden. "--state": Points to previous manifest (e.g., from production) to compare state and resolve refs. "--defer": Uses upstream models from the state manifest if they don't exist in the current environment. \
+"dbt run --select "@my_model": select my_model, its descendants, and the ancestors of its descendants\
+"dbt run --select staging.*: runs all models in the staging directory. \
+"dbt ls -s config.materialized:view --output json": list all models materialized as views in json. \
+"dbt -x run" / "dbt --fail-fast run": dbt run will exit immediately if a single resource fails to build. \
 
 Graph operator: +, @ zoals in dbt run --select model_a+.
 
