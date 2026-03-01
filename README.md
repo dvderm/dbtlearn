@@ -2,6 +2,8 @@
 
 ## Algemeen
 dbt build --full-refresh: rebuild all models (including incremental) and seeds. Similar to CREATE OR REPLACE.\
+dbt build --select +fct_orders+: build all models that are up- and downstream of the fct_orders model.\
+dbt build --select source_status:fresher+: build all models that have fresher information compared to a previous job/state (in dbt cloud you can refer to a previous job run (probably the manifest.json) with the "Compare changes against" option when configuring a new job.\
 "dbt build": run models, test tests, snapshot snapshots, seed seeds.\
 "dbt --help": docs over dbt commando's. \
 "dbt test --help": docs over "dbt test"\
